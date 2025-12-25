@@ -20,11 +20,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import {
     getFundingAccountBalances,
-    getWorkcoverClaimSummaries,
-    getTransactionLedger,
     getAgedCareExpenses,
+} from '@/lib/api/aged-care'
+import {
+    getWorkcoverClaimSummaries,
     getWorkcoverExpenses,
-} from '@/lib/api/services'
+} from '@/lib/api/workcover'
+import {
+    getTransactionLedger,
+} from '@/lib/api/admin'
 import type {
     FundingAccountBalance,
     WorkcoverClaimSummary,

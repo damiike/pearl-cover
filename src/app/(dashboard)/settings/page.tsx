@@ -12,7 +12,17 @@ import { toast } from 'sonner'
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/providers'
-import { updateProfile, getPages, getRolePermissions, deleteUserData, deleteAllSystemData, getAIConfiguration, saveAIConfiguration, removeChatGPTApiKey } from '@/lib/api/services'
+import { useAuth } from '@/providers'
+import {
+    updateProfile,
+    getPages,
+    getRolePermissions,
+    deleteUser,
+    deleteUserData,
+    deleteAllSystemData,
+    getAIConfiguration,
+    saveAIConfiguration,
+} from '@/lib/api/admin/index'
 import { testChatGPTConnection } from '@/lib/ai/chatgpt'
 import { createClient } from '@/lib/supabase/client'
 import type { UserRole } from '@/lib/types/database'
