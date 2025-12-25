@@ -1,2 +1,5 @@
-export { createClient } from '@/lib/supabase/client'
-export { createClient as createServerClient } from '@/lib/supabase/server'
+import { createBrowserClient, createServerClient as createSupabaseServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+
+export { createBrowserClient as createClient }
+export { createServerClient as createSupabaseServerClient }

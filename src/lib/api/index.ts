@@ -1,0 +1,8 @@
+export * as agedCare from './aged-care'
+export * as workcover from './workcover'
+export * as payments from './payments'
+export * as notes from './notes'
+export * as suppliers from './suppliers'
+export * as calendar from './calendar'
+export * as admin from './admin'
+export * as shared from './shared'
