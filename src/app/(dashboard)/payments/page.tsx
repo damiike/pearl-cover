@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { getPaymentTransactions, createPaymentTransaction } from '@/lib/api/services'
+import { getPaymentTransactions, createPaymentTransaction } from '@/lib/api/payments'
 import type { PaymentTransaction, PaymentType, PaymentMethod } from '@/lib/types/database'
 
 const paymentTypeColors: Record<PaymentType, string> = {
