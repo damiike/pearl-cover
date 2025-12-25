@@ -12,9 +12,7 @@ import { toast } from 'sonner'
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/providers'
-import { useAuth } from '@/providers'
 import {
-    updateProfile,
     getPages,
     getRolePermissions,
     deleteUser,
