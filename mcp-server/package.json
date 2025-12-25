@@ -1,0 +1,30 @@
+{
+    "name": "pearl-cover-mcp",
+    "version": "1.0.0",
+    "description": "Pearl Cover MCP Server - AI Assistant Data Access",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "tsc --watch"
+    },
+    "keywords": [
+        "pearl-cover",
+        "mcp",
+        "ai-assistant",
+        "aged-care",
+        "workcover"
+    ],
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^20.11.24",
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.89.0",
+        "dotenv": "^16.4.5",
+        "fastmcp": "^3.25.4",
+        "zod": "^4.2.1"
+    }
+}
