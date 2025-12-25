@@ -1,64 +1,42 @@
-// ChatGPT API Integration
-import OpenAI from 'openai'
-import type { ChatMessage, AIResponse, SearchResult } from './types'
+// ChatGPT API Integration - Now calls backend API route for security
 
 /**
- * Call OpenAI-compatible API with user's configuration
+ * Call AI backend API route instead of direct OpenAI calls
  */
 export async function callChatGPT(
-    apiKey: string,
-    messages: ChatMessage[],
-    baseURL: string = 'https://api.openai.com/v1',
-    model: string = 'gpt-4-turbo-preview'
+    query: string
 ): Promise<string> {
-    if (!apiKey) {
-        throw new Error('API key is required')
+    if (!query) {
+        throw new Error('Query is required')
     }
 
-    const openai = new OpenAI({
-        apiKey,
-        baseURL,
-        dangerouslyAllowBrowser: true, // Client-side usage
-    })
-
     try {
-        const completion = await openai.chat.completions.create({
-            model,
-            messages: messages.map(m => ({
-                role: m.role,
-                content: m.content,
-            })),
-            temperature: 0.7,
-            max_tokens: 1000,
+        const response = await fetch('/api/ai/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query }),
         })
 
-        return completion.choices[0]?.message?.content || ''
-    } catch (error: any) {
-        if (error.status === 401) {
-            throw new Error('Invalid API key. Please check your API key in settings.')
-        } else if (error.status === 429) {
-            throw new Error('Rate limit exceeded. Please try again later.')
-        } else {
-            throw new Error(`API error: ${error.message}`)
+        if (!response.ok) {
+            const error = await response.json()
+            throw new Error(error.error || 'Failed to get AI response')
         }
+
+        const data = await response.json()
+        return data.content
+    } catch (error: any) {
+        throw new Error(error?.message || 'Failed to call AI API')
     }
 }
 
 /**
- * Test if API configuration is valid
+ * Test if API configuration is valid by making a simple call
  */
-export async function testChatGPTConnection(
-    apiKey: string,
-    baseURL?: string,
-    model?: string
-): Promise<boolean> {
+export async function testChatGPTConnection(): Promise<boolean> {
     try {
-        await callChatGPT(
-            apiKey,
-            [{ role: 'user', content: 'Hello' }],
-            baseURL,
-            model
-        )
+        await callChatGPT('Hello')
         return true
     } catch (error) {
         return false
@@ -100,10 +78,9 @@ Keep responses concise and actionable.`
  * Format AI response with clickable links
  */
 export function formatResponseWithLinks(aiResponse: string): string {
-    // Replace ID references with actual links
     let formatted = aiResponse
 
-    // Notes: [Note: <title>](ID:<id>) -> [Note: <title>](/notes?id=<id>)
+    // Notes: [Note: <title>](ID:<id>) -> [Note: <title>](/notes?highlight=<id>)
     formatted = formatted.replace(
         /\[Note: ([^\]]+)\]\(ID:([^)]+)\)/g,
         '[$1](/notes?highlight=$2)'
@@ -115,7 +92,7 @@ export function formatResponseWithLinks(aiResponse: string): string {
         '[$1](/workcover?claim=$2)'
     )
 
-    // Expenses: [Expense: <desc>](ID:<id>) -> [Expense: <desc>](/aged-care?expense=<id>) or /workcover
+    // Expenses: [Expense: <desc>](ID:<id>) -> [Expense: <desc>](/expenses?id=<id>)
     formatted = formatted.replace(
         /\[Expense: ([^\]]+)\]\(ID:([^)]+)\)/g,
         '[$1](/expenses?id=$2)'

@@ -12,5 +12,8 @@
       }
     }
   },
+  "plugin": [
+    "opencode-google-antigravity-auth"
+  ],
   "$schema": "https://opencode.ai/config.json"
 }

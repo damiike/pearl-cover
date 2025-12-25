@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider, AuthProvider } from "@/providers";
+import { ErrorBoundary } from "@/components/error-boundary";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,13 +39,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
-        <QueryProvider>
-          <AuthProvider>
-            {children}
-            <Toaster position="top-right" richColors />
-          </AuthProvider>
-        </QueryProvider>
-      </body>
-    </html>
-  );
-}
+         <QueryProvider>
+           <AuthProvider>
+             <ErrorBoundary>
+               {children}
+             </ErrorBoundary>
+             <Toaster position="top-right" richColors />
+           </AuthProvider>
+         </QueryProvider>
+       </body>
+     </html>
+   );
+ }
