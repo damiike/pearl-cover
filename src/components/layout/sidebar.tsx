@@ -1,6 +1,4 @@
-'use client'
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -16,6 +14,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/providers'
+import { getUserEffectivePermissions } from '@/lib/api/admin/index'
 import {
     Home,
     Heart,
@@ -98,6 +97,17 @@ function NavLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
 }
 
 function SidebarContent({ collapsed, onCollapse }: { collapsed: boolean; onCollapse?: () => void }) {
+    const { user } = useAuth()
+    const [canViewAdmin, setCanViewAdmin] = useState(false)
+
+    useEffect(() => {
+        if (user?.id) {
+            getUserEffectivePermissions(user.id, '/admin/users')
+                .then(perms => setCanViewAdmin(perms.canView))
+                .catch(err => console.error('Failed to check admin permissions:', err))
+        }
+    }, [user?.id])
+
     return (
         <div className="flex h-full flex-col">
             {/* Logo */}
@@ -143,14 +153,17 @@ function SidebarContent({ collapsed, onCollapse }: { collapsed: boolean; onColla
                     ))}
                 </div>
 
-                {/* TODO: Show only to admins */}
-                <div className="my-4 border-t" />
-
-                <div className="space-y-1">
-                    {adminNavItems.map((item) => (
-                        <NavLink key={item.href} item={item} collapsed={collapsed} />
-                    ))}
-                </div>
+                {/* Admin section - only show if user has permission */}
+                {canViewAdmin && (
+                    <>
+                        <div className="my-4 border-t" />
+                        <div className="space-y-1">
+                            {adminNavItems.map((item) => (
+                                <NavLink key={item.href} item={item} collapsed={collapsed} />
+                            ))}
+                        </div>
+                    </>
+                )}
             </nav>
 
             {/* Expand button when collapsed */}

@@ -46,7 +46,6 @@ export async function uploadAttachment(
     throw new Error(`Failed to upload file: ${uploadError.message}`)
   }
   
-  const { data: publicUrlData } = supabase.storage
     .from('attachments')
     .getPublicUrl(fileName)
   
