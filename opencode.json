@@ -15,5 +15,44 @@
   "plugin": [
     "opencode-google-antigravity-auth"
   ],
+  "provider": {
+    "google": {
+      "npm": "@ai-sdk/google",
+      "models": {
+        "gemini-3-pro-preview": {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro Preview",
+          "reasoning": true,
+          "limit": { "context": 1000000, "output": 64000 }
+        },
+        "gemini-3-flash": {
+          "id": "gemini-3-flash",
+          "name": "Gemini 3 Flash",
+          "reasoning": true,
+          "limit": { "context": 1048576, "output": 65536 }
+        },
+        "gemini-2.5-flash": {
+          "id": "gemini-2.5-flash",
+          "name": "Gemini 2.5 Flash",
+          "reasoning": true,
+          "limit": { "context": 1048576, "output": 65536 }
+        },
+        "gemini-claude-opus-4-5-thinking": {
+          "id": "gemini-claude-opus-4-5-thinking",
+          "name": "Claude Opus 4.5 (Thinking)",
+          "reasoning": true,
+          "limit": { "context": 200000, "output": 64000 },
+          "options": { "thinkingConfig": { "thinkingBudget": 32000, "includeThoughts": true } }
+        },
+        "gemini-claude-sonnet-4-5-thinking": {
+          "id": "gemini-claude-sonnet-4-5-thinking",
+          "name": "Claude Sonnet 4.5 (Thinking)",
+          "reasoning": true,
+          "limit": { "context": 200000, "output": 64000 },
+          "options": { "thinkingConfig": { "thinkingBudget": 32000, "includeThoughts": true } }
+        }
+      }
+    }
+  },
   "$schema": "https://opencode.ai/config.json"
 }
