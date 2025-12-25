@@ -735,7 +735,7 @@ export async function uploadAttachment(
 
     // 1. Upload file to storage
     const fileExt = file.name.split('.').pop()
-    const fileName = `${entityType} /${entityId}/${Math.random().toString(36).substring(7)}.${fileExt} `
+     const fileName = `${entityType}/${entityId}/${Math.random().toString(36).substring(7)}.${fileExt}`
 
     const { error: uploadError } = await supabase.storage
         .from('attachments')
